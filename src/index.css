@@ -1,0 +1,139 @@
+@import '@fontsource/onest/400.css';
+@import '@fontsource/onest/500.css';
+@import 'tailwindcss';
+
+@theme {
+  --color-heading: #0c0a14;
+  --color-body: #31323b;
+  --breakpoint-tablet: 64rem;
+  --breakpoint-mobile: 48rem;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Onest', sans-serif;
+    color: var(--color-body);
+    background: #ffffff;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--color-heading);
+  }
+
+  h1 {
+    font-size: 66px;
+  }
+
+  h2 {
+    font-size: 42px;
+  }
+
+  h3 {
+    font-size: 32px;
+  }
+
+  h4 {
+    font-size: 24px;
+  }
+
+  p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--color-body);
+  }
+
+  a {
+    color: var(--color-body);
+    transition: all 0.2s ease;
+  }
+
+  button {
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 14px;
+    color: #10101a;
+    background-color: #cfdfe8;
+    border-radius: 144px;
+    padding: 12px 20px;
+    border: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn {
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 14px;
+    color: #10101a;
+    background-color: #cfdfe8;
+    border: 1px solid #cfdfe8;
+    border-radius: 144px;
+    padding: 12px 20px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn:hover {
+    background-color: #fff;
+    color: #10101a;
+    border-color: #cfdfe8;
+  }
+
+  a:hover {
+    color: var(--color-heading);
+  }
+
+  @media (max-width: 1024px) {
+    h1 {
+      font-size: 42px;
+    }
+
+    h2 {
+      font-size: 36px;
+    }
+
+    h3 {
+      font-size: 26px;
+    }
+
+    h4 {
+      font-size: 22px;
+    }
+    a,
+    p {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 32px;
+    }
+
+    h2 {
+      font-size: 30px;
+    }
+
+    h3 {
+      font-size: 22px;
+    }
+
+    h4 {
+      font-size: 20px;
+    }
+  }
+}
