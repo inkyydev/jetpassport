@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Container from '../common/Container'
 import cloudImg from '../../assets/cloud-img.png'
+import searchIcon from '../../assets/search-icon.svg'
 
 function VisaEvisaArchiveHero({
   title,
@@ -8,6 +9,8 @@ function VisaEvisaArchiveHero({
   backgroundImage,
   ctaLabel = 'Get Started Today',
   ctaTo = '/contact',
+  showSearch = false,
+  searchPlaceholder = 'Search FAQs',
 }) {
   return (
     <section
@@ -21,6 +24,25 @@ function VisaEvisaArchiveHero({
           <Link to={ctaTo} className="btn mt-8 inline-block shadow-[0_20px_20px_0_rgba(0,0,0,0.25)]">
             {ctaLabel}
           </Link>
+
+          {showSearch ? (
+            <div className="mx-auto mt-6 w-full max-w-[502px] rounded-[100px] bg-white p-[9px]">
+              <div className="flex items-center gap-3">
+                <input
+                  type="text"
+                  placeholder={searchPlaceholder}
+                  className="w-full bg-transparent px-3 text-[#99A2AD] outline-none"
+                />
+                <button
+                  type="button"
+                  aria-label="Search"
+                  className="!m-0 inline-flex !h-[36px] !w-[36px] !min-h-[36px] !min-w-[36px] items-center justify-center !rounded-full !border !border-[#CFDFE8] !bg-[#CFDFE8] !p-0 hover:!bg-transparent"
+                >
+                  <img src={searchIcon} alt="" aria-hidden className="h-[13px] w-[13px]" />
+                </button>
+              </div>
+            </div>
+          ) : null}
         </div>
       </Container>
 

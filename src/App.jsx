@@ -10,6 +10,8 @@ import EvisasSinglePage from './pages/EvisasSingle'
 import BlogPage from './pages/Blog'
 import BlogSinglePage from './pages/BlogSingle'
 import ContactPage from './pages/Contact'
+import FAQPage from './pages/FAQ'
+import AboutPage from './pages/About'
 import PassportVisaPhotoServicesPage from './pages/PassportVisaPhotoServices'
 import PassportSinglePage from './pages/PassportSingle'
 import PassportFastSinglePage from './pages/PassportFastSingle'
@@ -46,6 +48,8 @@ function App() {
           <Route path="/passport/passport-card-fast" element={<PassportFastSinglePage />} />
           <Route path="/passport/:slug" element={<PassportSinglePage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/about-us" element={<AboutPage />} />
+          <Route path="/faq" element={<FAQPage />} />
           <Route
             path="/passport-visa-photo-services"
             element={<PassportVisaPhotoServicesPage />}

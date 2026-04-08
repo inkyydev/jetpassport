@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import logo from '../../assets/logo.svg'
+import headerBlogBg from '../../assets/header-img.png'
+import chevDropdownIcon from '../../assets/chev-dropdown-icon.svg'
 import Container from '../common/Container'
-import { evisaItems } from '../../pages/Evisas/data'
-import { visaItems } from '../../pages/Visa/data'
+import { passportServices } from '../../pages/Passport/data'
 import phoneIcon from '../../assets/phone-img.svg'
 
 const baseNavItems = [
@@ -17,6 +18,10 @@ const baseNavItems = [
 ]
 
 function Header() {
+  const { pathname } = useLocation()
+  const isBlogSection =
+    pathname === '/blog' || pathname.startsWith('/blog/') || pathname === '/contact'
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [openDesktopDropdown, setOpenDesktopDropdown] = useState('')
   const [openMobileDropdown, setOpenMobileDropdown] = useState('')
@@ -39,46 +44,64 @@ function Header() {
   }
 
   return (
-    <header className="top-0 z-50 border-b border-[rgba(255,255,255,0.3)] bg-[rgba(255,255,255,0.1)] backdrop-blur-[5px] py-[12px] md:py-[20px] absolute w-full left-0 top-0">
+    <header
+      className={
+        isBlogSection
+          ? 'relative z-50 w-full border-b border-[rgba(255,255,255,0.25)] bg-cover bg-center bg-no-repeat py-[12px] md:py-[20px]'
+          : 'absolute left-0 top-0 z-50 w-full border-b border-[rgba(255,255,255,0.3)] bg-[rgba(255,255,255,0.1)] py-[12px] backdrop-blur-[5px] md:py-[20px]'
+      }
+      style={isBlogSection ? { backgroundImage: `url(${headerBlogBg})` } : undefined}
+    >
       <div className="flex items-center justify-between max-w-[1300px] mx-auto px-[20px] md:px-[30px] lg:px-[12px]">
         <Link to="/" className="shrink-0" onClick={closeAllMenus}>
           <img src={logo} alt="Jet Passport" className="h-8 w-auto" />
         </Link>
 
-        <nav className="hidden items-center gap-[15px] min-[1150px]:text-[12px] xl:text-[14px] min-[1150px]:flex ">
-          {baseNavItems.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              className="py-2 text-[#fff] hover:text-[rgba(255,255,255,0.8)]"
-            >
-              {item.label}
-            </NavLink>
-          ))}
-
-          {/* <div
-            className="relative py-2"
-            onMouseEnter={() => setOpenDesktopDropdown('visa')}
-            onMouseLeave={() => setOpenDesktopDropdown('')}
-          >
-            <Link to="/visa" className="inline-flex items-center gap-1">
-              Visa
-              <span className="text-xs">▼</span>
-            </Link>
-            {openDesktopDropdown === 'visa' ? (
-              <div className="absolute left-0 top-full mt-0 w-48 rounded-md border border-zinc-200 bg-white p-2 shadow-lg">
-                {visaItems.map((item) => (
-                  <Link
-                    key={item.id}
-                    to={`/visa/${item.slug}`}
-                    className="block rounded px-2 py-1 text-sm hover:bg-zinc-100"
-                  >
-                    {item.country}
-                  </Link>
-                ))}
+        <nav className="hidden items-center gap-[15px] min-[1150px]:text-[12px] xl:text-[14px] min-[1150px]:flex">
+          {baseNavItems.map((item) =>
+            item.label === 'Passport Services' ? (
+              <div
+                key={item.to}
+                className="relative py-2"
+                onMouseEnter={() => setOpenDesktopDropdown('passport')}
+                onMouseLeave={() => setOpenDesktopDropdown('')}
+              >
+                <Link
+                  to={item.to}
+                  className="inline-flex items-center gap-1 text-[#fff] hover:text-[rgba(255,255,255,0.8)]"
+                >
+                  {item.label}
+                  <img
+                    src={chevDropdownIcon}
+                    alt=""
+                    aria-hidden
+                    className="h-[5px] w-[8px] translate-y-[1px]"
+                  />
+                </Link>
+                {openDesktopDropdown === 'passport' ? (
+                  <div className="absolute left-0 top-full z-20 mt-0 w-56 rounded-[10px] bg-white p-2 shadow-lg">
+                    {passportServices.map((service) => (
+                      <Link
+                        key={service.id}
+                        to={`/passport/${service.slug}`}
+                        className="block rounded px-2 py-1 text-sm text-[#0C0A14] hover:bg-zinc-100"
+                      >
+                        {service.title}
+                      </Link>
+                    ))}
+                  </div>
+                ) : null}
               </div>
-            ) : null}
-          </div> */}
+            ) : (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className="py-2 text-[#fff] hover:text-[rgba(255,255,255,0.8)]"
+              >
+                {item.label}
+              </NavLink>
+            )
+          )}
 
           <div className="flex items-center gap-[10px]">
             <a
@@ -99,7 +122,7 @@ function Header() {
 
         <button
           type="button"
-          className="inline-flex relative z-50 items-center justify-center min-[1150px]:hidden !m-0 !min-h-0 !min-w-0 !rounded-none !border-0 !bg-transparent !p-0 !font-normal !text-inherit shadow-none"
+          className="inline-flex relative z-50 items-center justify-center min-[1150px]:hidden !m-0 !min-h-0 !min-w-0 !rounded-none !border-0 !bg-transparent !p-0  !text-inherit shadow-none"
           onClick={() => setIsMobileMenuOpen((prev) => !prev)}
           aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isMobileMenuOpen}
@@ -129,33 +152,44 @@ function Header() {
         <div className="fixed inset-0 w-full h-[100vh] top-[0] pt-[50px] z-40 overflow-y-auto bg-white min-[1150px]:hidden">
           <Container className="py-8">
             <nav className="flex flex-col gap-5 text-lg">
-              {baseNavItems.map((item) => (
-                <NavLink key={item.to} to={item.to} onClick={closeAllMenus}>
-                  {item.label}
-                </NavLink>
-              ))}
-
-              {/* <div className="border-t border-zinc-200 pt-4">
-                <button
-                  type="button"
-                  onClick={() => toggleMobileDropdown('visa')}
-                  className="flex w-full items-center justify-between text-left text-lg"
-                >
-                  Visa <span>{openMobileDropdown === 'visa' ? '−' : '+'}</span>
-                </button>
-                {openMobileDropdown === 'visa' ? (
-                  <div className="mt-3 flex flex-col gap-2 pl-2">
-                    <Link to="/visa" onClick={closeAllMenus}>
-                      All Visas
-                    </Link>
-                    {visaItems.map((item) => (
-                      <Link key={item.id} to={`/visa/${item.slug}`} onClick={closeAllMenus}>
-                        {item.country}
-                      </Link>
-                    ))}
+              {baseNavItems.map((item) =>
+                item.label === 'Passport Services' ? (
+                  <div key={item.to}>
+                    <button
+                      type="button"
+                      onClick={() => toggleMobileDropdown('passport')}
+                      className="!m-0 !flex !w-full !items-center !justify-between !rounded-none !bg-transparent !p-0 !text-left !text-inherit !font-normal"
+                    >
+                      <span>{item.label}</span>
+                      <img
+                        src={chevDropdownIcon}
+                        alt=""
+                        aria-hidden
+                        className={`h-[5px] w-[8px] invert transition-transform ${
+                          openMobileDropdown === 'passport' ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </button>
+                    {openMobileDropdown === 'passport' ? (
+                      <div className="mt-3 flex flex-col gap-2 pl-2">
+                        {passportServices.map((service) => (
+                          <Link
+                            key={service.id}
+                            to={`/passport/${service.slug}`}
+                            onClick={closeAllMenus}
+                          >
+                            {service.title}
+                          </Link>
+                        ))}
+                      </div>
+                    ) : null}
                   </div>
-                ) : null}
-              </div> */}
+                ) : (
+                  <NavLink key={item.to} to={item.to} onClick={closeAllMenus}>
+                    {item.label}
+                  </NavLink>
+                )
+              )}
             </nav>
           </Container>
         </div>

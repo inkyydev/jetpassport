@@ -58,11 +58,16 @@ const rows = [
   },
 ]
 
+const comparisonGridCols =
+  'grid grid-cols-[180px_230px_230px] md:grid-cols-[250px_250px_250px] lg:grid-cols-[430px_281px_281px]'
+
 function GuaranteeCell({ iconSrc, text, colorClass }) {
   return (
-    <div className={`flex items-center justify-start md:gap-[15px] gap-[10px] ${colorClass}`}>
-      <img src={iconSrc} alt="" className="h-[28px] w-[28px]" />
-      <span>{text}</span>
+    <div
+      className={`flex min-w-0 items-center justify-start gap-[10px] md:gap-[15px] ${colorClass}`}
+    >
+      <img src={iconSrc} alt="" className="h-[28px] w-[28px] shrink-0" />
+      <span className="min-w-0 break-words">{text}</span>
     </div>
   )
 }
@@ -85,41 +90,51 @@ function ComparisonTable() {
             <img src={shapeImg} alt="shape" />
           </div>
           <div className="overflow-x-auto">
-            <div className=" grid grid-cols-[180px_230px_230px] md:grid-cols-[250px_250px_250px] lg:grid-cols-[430px_281px_281px] px-[19px]">
-              <div className="pb-[19px] px-3"></div>
-              <div className="pb-[19px] px-3">
-                <img src={jetPassportsLogo} alt="logo" />
+            <div className="w-max max-w-none">
+              <div className={`${comparisonGridCols} px-[19px]`}>
+                <div className="pb-[19px] px-3"></div>
+                <div className="pb-[19px] px-3">
+                  <img
+                    src={jetPassportsLogo}
+                    alt="Jet Passports"
+                    className="h-auto max-w-[206px]"
+                    width={206}
+                    height={34}
+                  />
+                </div>
+                <div className="mt-[2px] pb-[19px] px-3 text-[18px] font-medium md:mb-[16px] md:mt-0 md:text-[22px]">
+                  Post Office
+                </div>
               </div>
-              <div className="md:text-[22px] text-[18px] mt-[2px] md:mt-0 font-medium md:mb-[16px] pb-[19px] px-3">
-                Post Office
+
+              <div className="rounded-[15px] bg-[#F2F7FB] px-[19px]">
+                {rows.map((row, idx) => (
+                  <div
+                    key={row.label}
+                    className={`${comparisonGridCols} min-w-0 ${
+                      idx === 0 ? '' : 'border-t border-[#D0D4EA]'
+                    }`}
+                  >
+                    <div className="min-w-0 py-[19px] pl-[13px] pr-3 text-left text-[14px] text-[#0C0A14] md:text-[16px]">
+                      {row.label}
+                    </div>
+                    <div className="min-w-0 px-3 py-[14px] md:py-[19px] text-[14px] md:text-[16px]">
+                      <GuaranteeCell
+                        iconSrc={checkIcon}
+                        text={row.guarantee}
+                        colorClass="text-[#10101A]"
+                      />
+                    </div>
+                    <div className="min-w-0 py-[14px] pl-3 pr-0 md:py-[19px] text-[14px] md:text-[16px]">
+                      <GuaranteeCell
+                        iconSrc={xIcon}
+                        text={row.notGuaranteed}
+                        colorClass="text-[#10101A]"
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
-            <div className="bg-[#F2F7FB] w-[max-content] px-[19px] rounded-[15px]">
-              <table className=" w-full border-collapse">
-                <tbody>
-                  {rows.map((row, idx) => (
-                    <tr key={row.label} className={idx === 0 ? '' : 'border-t border-[#D0D4EA]'}>
-                      <td className=" pl-[13px] min-w-[180px] md:min-w-[250px] lg:min-w-[430px]  py-[19px] pr-3 text-left text-[#0C0A14] text-[14px] md:text-[16px]">
-                        {row.label}
-                      </td>
-                      <td className="min-w-[230px] md:min-w-[250px] lg:min-w-[281px] md:py-[19px] py-[14px] px-3 w-1/2 text-[14px] md:text-[16px]">
-                        <GuaranteeCell
-                          iconSrc={checkIcon}
-                          text={row.guarantee}
-                          colorClass="text-[#10101A]"
-                        />
-                      </td>
-                      <td className="min-w-[230px] md:min-w-[250px] lg:min-w-[281px] md:py-[19px] py-[14px] pl-3 w-1/2 text-[14px] md:text-[16px]">
-                        <GuaranteeCell
-                          iconSrc={xIcon}
-                          text={row.notGuaranteed}
-                          colorClass="text-[#10101A]"
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
             </div>
           </div>
 
